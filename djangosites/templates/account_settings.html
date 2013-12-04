@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}User Account Settings{% endblock %}
+{% block content_class %} class="one-column"{% endblock %}
+
+{% block main_content %}
+<h1>User Settings</h1>
+<p>This is where you can make changes to your account.</p>
+
+<ul>
+    <li><a href="{% url djangosites.websites.views.sites_by_author user.username %}">View / Edit Your Sites</a></li>
+    <li><a href="{% url auth_password_change %}">Change Password</a></li>
+    <li><a href="{% url user_associate %}">Add OpenID Association</a></li>
+    {% if associated_openids %}
+        <li>Remove OpenID Association<ul>
+            {% for oid in associated_openids %}
+            <li><a href='{% url user_dissociate %}?openid_url={{ oid }}'>{{ oid }}</a></li>
+            {% endfor %}
+        </ul></li>
+    {% endif %}
+    <li><a href="{% url user_dissociate %}">Remove OpenID Association</a></li>
+</ul>
+
+<p>&nbsp;</p>
+{% endblock %}

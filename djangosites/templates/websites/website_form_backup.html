@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content_class %} class="one-column"{% endblock %}
+
+{% block main_content %}
+
+        <h1>{{ page_title }}</h1>
+
+        {% if not editing %}
+            <p>Got a website that's powered by Django? Enter the website details below and it'll be added to our index.</p>
+
+            <p>Because we display beautiful thumbnails of websites on our homepage, for safety reasons we <strong>manually verify all submissions</strong>. As such, please allow up to 48 hours for your website to be checked.</p>
+
+            <p><strong>Is your site already listed?</strong> Don't re-submit it just to make changes. <a href='/author/{{ request.user.username }}/'>View your pages profile</a> and click the 'Edit' link to make changes.</p>
+        {% else %}
+            <p>Editing a site will change it to <strong>unverified</strong> until we re-verify it. This helps us keep the thumbnails clean and suitable.</p>
+
+            <p>This means that your site will <strong>not</strong> be visible after you edit it, until we review it and publish it again.</p>
+        {% endif %}
+
+        <form action="./" method="post">
+            <ul>{% for e in form.errors.items %}<li>{{ e.0 }}: {{ e.1|join:", " }}</li>{% endfor %}</ul>
+
+            <fieldset>
+                <legend>{{ page_title }}</legend>
+		        
+                <p><label for="id_title" class="required{% if form.title.errors %} error{% endif %}">Title:</label><br>{{ form.title }}{% if form.title.errors %}<span class="formerror">{{ form.title.errors|join:", " }}</span>{% endif %}<br>The title of your website, which you <strong>must type in English</strong>.</p>
+		        
+                <p><label for="id_url" class="required{% if form.url.errors %} error{% endif %}">URL:</label><br>{{ form.url }}{% if form.url.errors %}<span class="formerror">{{ form.url.errors|join:", " }}</span>{% endif %}<br>Your websites URL (Must be accessible from the world wide web, no HTTPS or ports other than 80.)</p>
+		        
+                <p><label for="id_description" class="required{% if form.description.errors %} error{% endif %}">Description:</label><br>{{ form.description }}{% if form.description.errors %}<span class="formerror">{{ form.description.errors|join:", " }}</span>{% endif %}<br>A brief summary of your website (Markdown is permitted). Please keep your description in English, or in your native language with an English translation.</p>
+		        
+                <p><label for="id_tags" class="{% if form.tags.errors %} error{% endif %}">Tags:</label><br>{{ form.tags }}{% if form.tags.errors %}<span class="formerror">{{ form.tags.errors|join:", " }}</span>{% endif %}<br>Space-separated tags describing your website. We would love if you could use at least "personal" or "business". <strong>Website not in english?</strong> Please include a tag stating the language, e.g. "french" or "sudanese".</p>
+		
+		        <p><label for="id_source_url" class="{% if form.source_url.errors %} error{% endif %}">Source Code URL:</label><br>{{ form.source_url }}{% if form.source_url.errors %}<span class="formerror">{{ form.source_url.errors|join:", " }}</span>{% endif %}<br>If the source code is available for this website, put the URL to the source code (or a website containing the code) here. This is purely optional.</p>
+		        
+                <p><input type="submit" value="{% if not editing %}Add Site{% else %}Save Changes and Request Re-Verification{% endif %}" class="send"></p>
+            </fieldset>               
+        </form>
+
+{% endblock %}

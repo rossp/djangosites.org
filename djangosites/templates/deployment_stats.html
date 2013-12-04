@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}Django Deployment Statistics{% endblock %}
+{% block content_class %} class="stats-page"{% endblock %}
+{% block content_header %}Deployment Statistics{% endblock %}
+{% block extrahead %}
+<!--[if IE]><script language="javascript" type="text/javascript" src="excanvas.min.js"></script><![endif]-->
+<script src='/media/flot/jquery.js' type='text/javascript'></script>
+<script src='/media/flot/jquery.flot.js' type='text/javascript'></script>
+<script type='text/javascript'>
+    function showTooltip(x, y, contents) {
+        $('<div id="tooltip">' + contents + '</div>').css( {
+            position: 'absolute',
+            display: 'none',
+            top: y + 5,
+            left: x + 5,
+            border: '1px solid #fdd',
+            padding: '2px',
+            'background-color': '#fee',
+            opacity: 0.80
+        }).appendTo("body").fadeIn(200);
+    }
+</script>
+<style type='text/css'>
+    .chartPlaceholder {
+        width: 800px;
+        height: 250px;
+    }
+table#stats {
+    margin: 0 auto;
+    width: 80%;
+}
+</style>
+{% endblock %}
+{% block main_content %}
+
+<h1>Deployment Statistics</h1>
+
+<p>When websites are submitted to DjangoSites, we collect some optional and anonymous deployment details. These websites are listed below in aggregate form for number-driven people :)</p>
+
+<h2>Licensing</h2>
+
+<p>All uses of this data must include attribution and a date of access. For example, if you are writing an article about Django and refer to these statistics, please provide attribution in the format of <em>"Deployment data provided by DjangoSites.org, as at April Xth 201x."</em> You can be a little bit flexible with the wording, just be nice and honest.</p>
+
+<h2>Responses</h2>
+
+<p>These statistics are built from responses by <strong>{{ num_responses }}</strong> websites, out of our entire listing of <strong>{{ num_sites }}</strong> websites.</p>
+
+<table id='stats'>
+    {% for stat in stats %}
+    <tr><td>
+            <h2 id='{{ stat.title|slugify }}'>{{ stat.title }}</h2>
+    <div class='chartPlaceholder' id='chart{{ stat.title|slugify }}'></div>
+    <!-- <canvas class="fig" id="fig{{ stat.title|slugify }}" width='400'></canvas> -->
+    <script type='text/javascript'>
+        var data{{ forloop.counter0 }} = [{% for item in stat.data %}
+{data: [[{{ forloop.counter }}, {{ item.count }}]]}{% if not forloop.last %},{% endif %}{% endfor %}
+        ];
+        var options{{ forloop.counter0 }} = {
+                        series: {
+                            bars: { show: true, barWidth: 0.8, align: 'center' },
+                            lines: { show: false, steps: false}
+                                },
+                        xaxis: {ticks: [{% for item in stat.data %}[{{ forloop.counter }}, '{{ item.type }}']{% if not forloop.last %}, {% endif %}{% endfor %}]},
+                        grid: { hoverable: true }
+                    };
+        $(function() {
+                $.plot("#chart{{ stat.title|slugify }}", data{{ forloop.counter0 }}, options{{ forloop.counter0 }});
+        });
+</script>
+
+<ol>
+{% for item in stat.data %}
+    <li><strong>{{ item.type }}</strong> ~{{ item.count }}%</li>
+{% endfor %}
+</ol>
+</td></tr>{% endfor %}
+</table>
+
+<h2>Notes</h2>
+
+<p>These statistics are rounded to the nearest tenth of a percentage point, which may introduce rounding errors. All values are expressed as percentages of the total number of responses to that question. Some users answered certain questions but not others.</p>
+
+<p>Statistics include only <em>verified</em> websites in our listing.</p>
+
+<script type='text/javascript'>
+    var previousPoint = null;
+    $(".chartPlaceholder").bind("plothover", function (event, pos, item) {
+        if (item) {
+            if (previousPoint != item.datapoint) {
+                previousPoint = item.datapoint;
+                
+                $("#tooltip").remove();
+                var x = item.datapoint[0].toFixed(2),
+                    y = item.datapoint[1].toFixed(2);
+                
+                showTooltip(item.pageX, item.pageY, "approx " + y + "%");
+            }
+        }
+        else {
+            $("#tooltip").remove();
+            previousPoint = null;            
+        }
+    });
+
+</script>
+
+{% endblock %}

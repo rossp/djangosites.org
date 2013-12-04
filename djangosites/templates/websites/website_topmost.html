@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block main_content %}
+{% load truncate %}
+{% load voting_tags %}
+{% load tagging_tags %}
+{% scores_for_objects website_list as score_dict %}
+
+            <h1>{{ page_title }}</h1>
+
+            <div id="websites">
+            {% for website in website_list %}
+            {% dict_entry_for_item website from score_dict as score %}
+                <div class="top_voted">{% if forloop.first %}<span id="first">#{{ forloop.counter }}</span>{% else %}#{{ forloop.counter }}{% endif %}</div>
+
+                <div class="website_wrapper">
+                    <div class="website_preview">
+                        <p class="header"><span class="title{% if website.source_url %}withsource{% endif %}"><a href="{{ website.url }}">{{ website.title|truncate_dot:25 }}</a></span> <span class="score">+{{ score.score|default:0 }}</span></p>
+                        <a href="{{ website.get_absolute_url }}"><img src="{{ website.screenshot_url }}" alt="{{ website.title }}"></a>
+                        <p class="info"><a href="/author/{{ website.owner.username }}/">{{ website.owner.get_full_name|default:website.owner.username }}</a> <span class="date">{{ website.created|date:"j/m/y" }}</span></p>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+
+{% endblock %}
+
+
+{% block sidebar %}
+            <div id="tag-cloud">
+                <h2>Tags</h2>
+                <ul>
+                {% for tag in tagcloud %}
+                    <li><a href="/tag/{{ tag.name }}/" class="tag-{{ tag.font_size }}">{{ tag.name }}</a></li>
+                {% endfor %}
+                </ul>
+				<p class="bottom"><a href="/tags/">View All Tags</a></p>
+            </div>
+{% endblock %}

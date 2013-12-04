@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}{{ object.title }}{% endblock %}
+{% block content_class %} class="one-column"{% endblock %}
+
+{% block main_content %}
+{% load markup %}
+{% load tagging_tags %}
+
+                <h1>{{ object.title }}</h1>
+
+
+                {{ object.description|escape|markdown }}
+                
+                <a href='{{ object.url }}'><img src="{{ object.largescreenshot_url }}" class='screenshot_large'></a><br>
+
+                {% if object.tags or object.language %}
+                <p>
+                {% if object.language %}<span>Language:</span> {{ object.get_language_display }}{% if object.tags %}<br>{% endif %}{% endif %}
+                {% if object.tags %}<span>Tags:</span>{% tags_for_object object as tag_list %} {% for tag in tag_list %}<a href="/tag/{{ tag }}">{{ tag }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}
+                </p>{% endif %}
+                
+                <p><span>Visit</span> this website at <a href="{{ object.url }}">{{ object.url }}</a></p>
+
+                {% if object.source_url %}
+                <p><span>Source code</span> is available for this site at <a href="{{ object.source_url }}">{{ object.source_url }}</a></p>
+                {% endif %}
+
+                {% ifequal object.owner.username 'unclaimed' %}
+                <p><span>Unclaimed!</span> We don't know who built this website. If it was you, <a href="mailto:djangosites@djangosites.org">e-mail us</a> and we'll give you credit.</p>
+                {% else %}
+                <p><span>Created</span> by <a href="/author/{{ object.owner.username }}/">{{ object.owner.get_full_name|default:object.owner.username }}</a> on {{ object.created|date:"jS M Y" }}{% ifequal object.owner user %} (That's you! You can <a href="edit/">edit this item</a>){% endifequal %}</p>
+                {% endifequal %}
+                {% if user.is_staff %}
+                <p><a href='/admin/websites/website/{{ object.id }}/'>Admin</a> <a href='/admin/websites/website/{{ object.id }}/delete/'>Delete</a></p>
+                {% endif %}
+                {% endblock %}
+

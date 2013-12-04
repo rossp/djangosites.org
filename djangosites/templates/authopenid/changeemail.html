@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Change E-Mail Address{% endblock %}
+{% block content_class %} class="one-column"{% endblock %}
+
+{% block main_content %}
+<h1>Change E-Mail Address</h1>
+
+<p>This is where you can change the email address associated with your account. Please keep this email address up to date so we can send you a password-reset email if you request one.</p>
+
+{% if form.errors %}
+<p class="errors">Please correct the errors below:<br>
+	{% if form.email.errors %} 
+		<span class="error">{{ form.email.errors|join:", " }}</span>
+	{% endif %}
+	{% if form.password.errors %} 
+		<span class="error">{{ form.password.errors|join:", " }}</span>
+	{% endif %}
+</p>
+{% endif %}
+
+<form action="{{ path }}" method="post" accept-charset="utf-8">{% csrf_token %}
+
+    <fieldset>
+        <legend>Change E-Mail Address</legend>
+
+		<p>{{ form.username }}</p>
+		<p><label for="id_email">Email</label><br>{{ form.email }}</p>
+		<p><label for="id_password">Password</label><br>{{ form.password }}</p>
+
+        <p><input type="submit" value="Change email"></p>
+    </fieldset>
+
+</form>
+{% endblock %}

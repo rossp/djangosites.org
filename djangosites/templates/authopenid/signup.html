@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Sign up{% endblock %}
+
+{% load i18n %}
+
+{% block sidebar %}
+        <div id="tag-cloud">
+            <p>Do you use OpenID? Use the OpenID form and you'll be signed up in record time. If you wish to use a traditional username and password, simply enter your details in the form to the left and we'll sign you right up.</p>
+        </div>
+{% endblock %}
+
+{% block main_content %}
+
+    {% blocktrans %}
+    <h1>Signup</h1>
+
+    <p>Enter information only for the type of sign up you want to do.</p>
+
+    {% endblocktrans %}
+        
+    {% if form.errors %}
+        <p class="formerror">***Please correct the errors below:</p>
+    {% endif %}
+
+    <form action="{% url user_signup %}" method="post" accept-charset="utf-8">	{% csrf_token %}
+            <fieldset>
+                <legend>Signup With Username &amp; Password</legend>
+
+                <p><label for="id_username">Choose a Username:</label><br>{{ form.username }}{% if form.username.errors %}<span class="formerror">{{ form.username.errors|join:", " }}</span>{% endif %}</p>
+                
+                <p><label for="id_email">Email address:</label><br>{{ form.email }}{% if form.email.errors %}<span class="formerror">{{ form.email.errors|join:", " }}</span>{% endif %}</p>
+
+                <p><label for="id_password1">Password:</label><br>{{ form.password1 }}{% if form.password1.errors %}<span class="formerror">{{ form.password2.errors|join:", " }}</span>{% endif %}</p>
+
+                <p><label for="id_password2">Password (type again to catch any typos):</label><br>{{ form.password2 }}{% if form.password2.errors %}<span class="error">{{ form.password2.errors|join:", " }}</span>{% endif %}</p>
+
+                <p><input type="submit" value="Register"></p>
+            </fieldset>
+    </form>
+
+
+    <form name="fopenid" action="{% url user_signin %}" method="post">{% csrf_token %}
+        <fieldset>
+            <legend>Sign up with OpenID</legend>
+            <p><label for="id_openid_url">OpenID URL</label><br>{{ form2.openid_url }}{% if form2.openid_url.errors %}<span class="error">{{ form2.openid_url.errors|join:", " }}</span>{% endif %}</p>
+            <p><input type="submit" value="Sign Up Using OpenID" name="bsignin"></p>
+        </fieldset>
+    </form>
+            
+    <p>Thanks for your interest in signing up, we appreciate your desire to share with the community!</p>
+{% endblock %}

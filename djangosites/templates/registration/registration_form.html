@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Sign up{% endblock %}
+
+{% load i18n %}
+
+{% block sidebar %}
+        <div id="tag-cloud">
+            <p>Do you use OpenID? Go straight to the "Sign In" page and you can get started in record time. If you wish to use a traditional username and password, simply enter your details in the form to the left and we'll sign you right up.</p>
+        </div>
+{% endblock %}
+
+{% block main_content %}
+
+    <h1>Signup</h1>
+        
+    {% if form.errors %}
+        <p class="formerror">***Please correct the errors below:</p>
+    {% endif %}
+
+    <form action="{% url registration_register %}" method="post" accept-charset="utf-8">	{% csrf_token %}
+            <fieldset>
+                <legend>Create a new account</legend>
+                    {% for field in form.hidden_fields %}
+                    {{ field }}
+                    {% endfor %}
+                    {% for field in form.visible_fields %}
+                            <p><label for="{{ field.name }}"{% if field.required %} class="required{%if field.errors %} error{% endif %}"{% endif %}>{{ field.label }}</label><br>{{ field }}{% if field.errors %}<span class="formerror">{{ field.errors|join:", " }}</span>{% endif %}</p>
+                            {% endfor %}
+
+            </fieldset>
+                <fieldset>
+                    <p><input type="submit" class="send" value="Register"></p>
+                </fieldset>
+    </form>
+    <p>Thanks for your interest in signing up, we appreciate your desire to share with the community!</p>
+{% endblock %}

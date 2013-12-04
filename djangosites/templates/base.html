@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+	<title>{% block title %}{% endblock %} :: DjangoSites.org - Powered by Django</title>    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Style-Type" content="text/css">
+    <meta http-equiv="imagetoolbar" content="no">
+    <meta name="robots" content="index, follow">
+    <meta name="MSSmartTagsPreventParsing" content="true">
+	<meta name="keywords" content="django powered sites, websites, directory, python, web framework, samples">
+	<meta name="description" content="The most comprehensive listing of websites that are powered by Django, the python web framework for perfectionists with deadlines.">
+    <meta name="verify-v1" content="72YbDGsl1o9xSpLEgu+04z6Hyc32qNs0ZY5bXAcjIoQ=">
+    <link href="/media/css/style.css" rel="stylesheet" type="text/css">
+    <!--[if IE]><link href="/media/css/ie.css" rel="stylesheet" type="text/css"><![endif]-->
+    <script type='text/javascript' src="/media/jquery-1.7.2.min.js"></script>
+    {% block extrahead %}{% endblock %}
+    </head>
+
+    <body>
+    <div id="wrapper">       
+        <div id="header">
+            <a href="http://www.djangosites.org/"><img src="/media/img/layout/logo.png" alt="djangosites.org"></a>
+        </div>
+       
+        <ul id="navigation">
+		    <li><a href="/">Latest sites</a></li>
+            <!-- <li><a href="/highest-rated/">Highest rated</a></li>S-->
+			<li><a href="/with-source/">Sites with Source</a></li>
+			<li><a href="/stats/">Deployment Stats</a></li>
+			<li><a href="/search/">Search</a></li>
+			<li><a href="/about/">About</a></li>
+        </ul>
+
+        <div id="content"{% block content_class %}{% endblock %}>
+        {% if user.is_authenticated %}
+        <ul id="actions">
+            <li><a href="/accounts/signout/">Logout</a></li>
+            <li><a href="/accounts/">Account Settings</a></li>                                    
+            <li><a href="/submit/">Submit site</a></li>
+            <li><a href="/author/{{ user.username }}/">My Sites</a></li>      
+        </ul>        
+        {% endif %}
+            <div id="main">
+                {% ifequal user.username "ross" %}
+                    {% for message in messages %}
+                        <div class="warning">{{ message }}</div>
+                    {% endfor %}
+                {% endifequal %}
+				{% autoescape off %}{% block main_content %}{% endblock %}
+			</div>
+
+            <div id="sidebar">
+                {% block sidebar %}{% endblock %}{% endautoescape %}
+            </div>          
+        </div>
+
+        <div id="footer">
+            {% block footer %}{% endblock %}
+            <p>Copyright &copy; 2008- DjangoSites.org. Django is a registered trademark of the <a href='http://www.djangoproject.com/foundation/'>Django Software Foundation</a>.</p>
+            <p>Website built by <a href="http://www.rossp.org/">Ross Poulton</a>, powered by <a href="http://www.djangoproject.com/">Django</a>. Design by <a href="http://www.byteshrine.org/">Martin Czura</a></p>
+        </div>
+
+    </div>
+    {% if user.is_authenticated %}<script type="text/javascript">
+    var clicky_custom_session = { username: '{{ user.username }}'};
+    </script>{% endif %}
+    <script src="http://static.getclicky.com/js" type="text/javascript"></script>
+    <script type="text/javascript">clicky.init(47715);</script>
+    <noscript><p><img alt="Clicky" width="1" height="1" src="http://static.getclicky.com/47715ns.gif" /></p></noscript>
+
+    <script type="text/javascript">
+      var _paq = _paq || [];
+      _paq.push(["trackPageView"]);
+      _paq.push(["enableLinkTracking"]);
+
+      (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http") + "://stats.djangosites.org/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "3"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+    <img src="http://stats.djangosites.org/piwik.php?idsite=3&amp;rec=1" style="border:0" alt="" />
+
+	</body>
+</html>

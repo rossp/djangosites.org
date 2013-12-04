@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}User Account Settings{% endblock %}
+{% block content_class %} class="one-column"{% endblock %}
+
+{% block main_content %}
+<h1>User Settings</h1>
+<p>This is where you can make changes to your account.</p>
+
+{% if msg %}
+    <p class="error">{{ msg }}</p>
+{% endif %}
+
+<ul>
+    <li><a href="{% url djangosites.websites.views.sites_by_author user.username %}">View / Edit Your Sites</a></li>
+    <li><a href="{% url user_changepw %}">Change Password</a></li>
+    <li><a href="{% url user_changeemail %}">Change E-Mail Address</a></li>
+    {% if is_openid %}
+    <li><a href="{% url user_changeopenid %}">Change OpenID Association</a></li>
+    {% endif %}
+    <li><a href="{% url user_delete %}">Delete my Account</a> and all related data</li>
+</ul>
+
+<p>&nbsp;</p>
+{% endblock %}

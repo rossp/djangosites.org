@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Sign in{% endblock %}
+
+{% block main_content %}
+
+        <h1>Log in</h1>
+        {% if msg %}
+	        <p class="warning">{{ msg }}</p>
+        {% endif %}
+        
+        <p>If you don't have an account, you can <a href="/accounts/signup/">sign up</a> for one; it's free, and you'll get access to a bunch of nifty features.</p>
+
+        <p>Use the bottom form to login using OpenID.</p>
+
+        <form method="post" action="">{% csrf_token %}
+        {{ form2.next }}
+        {% if form2.errors %}
+            <p class="formerror">***Please correct the errors below:</p>
+        {% endif %}
+
+            <fieldset>
+                <legend>Log in to your account</legend>
+
+                <p><label for="id_username">Username:</label><br>{{ form2.username }}{% if form2.username.errors %}<span class="formerror">{{ form2.username.errors|join:", " }}</span>{% endif %}</p>
+
+                <p><label for="id_password">Password:</label><br>{{ form2.password }}{% if form2.password.errors %} <span class="error">{{ form2.password.errors|join:", " }}</span>{% endif %}</p>
+
+                <p><input type="submit" name="blogin" value="Log in"></p>
+            </fieldset>
+
+            <p>Forgotten your password? <a href='{% url auth_password_reset %}'>Get a new one</a> e-mailed to you!</p>
+        </form>
+
+
+        <form name="fopenid" action="{{ action }}" method="post">{% csrf_token %}
+            {{ form1.next }}
+	        <fieldset>
+		        <legend>Sign In Using Your OpenID</legend>
+                <p><label for="id_openid_url">OpenID URL:</label><br>{{ form1.openid_url }}</p>
+                <p><input type="submit" name="bsignin" value="Sign In via OpenID"></p>
+	        </fieldset>
+        </form>	
+{% endblock %}

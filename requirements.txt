@@ -1,0 +1,24 @@
+Django<1.5
+Markdown==2.1.1
+PIL==1.1.7
+South==0.7.5
+beautifulsoup4
+django-authopenid==1.0.1
+django-flag==0.1.1
+django-memcache-status==1.1
+django-pagination==1.0.7
+django-registration==0.8
+django-tagging==0.3.1
+django-voting==0.1
+gunicorn==0.14.3
+psycopg2==2.4.5
+python-memcached==1.48
+python-openid==2.2.5
+wsgiref==0.1.2
+simplejson
+twitter
+tweepy
+raven
+requests
+djrill
+-e hg+https://bitbucket.org/benoitc/django-authopenid@b0e654e1776a0ef7427e2dca5168bf03b743327c#egg=django_authopenid-trunk

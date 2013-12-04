@@ -1,0 +1,7 @@
+Thank you for registering for DjangoSites. 
+
+Your username is {{ username }}. You can log in at {{ site_url }}.
+
+Regards,
+
+{{ site_url }}

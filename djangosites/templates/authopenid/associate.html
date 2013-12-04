@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Add OpenID Association{% endblock %}
+{% block content_class %} class="one-column"{% endblock %}
+
+{% block main_content %}
+<h1>Add OpenID Association</h1>
+
+<p>Want to associate an OpenID with your account? Easy! </p>
+
+{% if form.errors %}
+<p class="errors">Please correct the errors below:<br>
+	{% if form.openid_url.errors %} 
+		<span class="error">{{ form.openid_url.errors|join:", " }}</span>
+	{% endif %}
+
+
+</p>
+{% endif %}
+
+{% if msg %}
+	<p class="errors">{{ msg }}</p>
+{% endif %}
+
+<form action="{% url user_associate %}" method="post" accept-charset="utf-8">{% csrf_token %}
+    <input type='hidden' name='action' value='verify'>
+    <input type='hidden' name='next' value='{{ next }}'>
+        <fieldset>
+            <legend>Add OpenID Association</legend>
+		    <p><label for="id_openid_url">OpenID URL:</label><br>{{ form.openid_url }}</p>
+            <p><input type="submit" value="Add OpenID"></p>
+        </fieldset>
+	</form>
+{% endblock %}

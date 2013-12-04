@@ -1,0 +1,162 @@
+{% extends "base.html" %}{% load pagination_tags %}
+{% block extrahead %}
+{% ifequal view "author" %}
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="/rss/author/{{ author.username }}/">    
+{% endifequal %}
+{% ifequal view "tag" %}
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="/rss/tag/{{ tag.name }}/">    
+{% endifequal %}
+{% ifequal view "latest" %}
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="/rss/latest/">    
+  {% ifequal request.page 1 %}
+    {% if not user.is_authenticated %}
+    <script type='text/javascript' src='/media/jquery.js'></script>
+    <script type='text/javascript'>
+        function createCookie(name,value,days) {
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime()+(days*24*60*60*1000));
+                var expires = "; expires="+date.toGMTString();
+            }
+            else var expires = "";
+            document.cookie = name+"="+value+expires+"; path=/";
+        }
+
+        function readCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0;i < ca.length;i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1,c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+            }
+            return null;
+        }
+
+        $().ready(function() {
+            if (readCookie('useopenid') == "ofcourse") {
+                $('#openid_login').toggle();
+                $('#auth_login').toggle();
+                $('.sidebox > .bottom > span').toggle();
+            }
+            $('.login_toggle>a').click(function() {
+                $('#openid_login').toggle();
+                $('#auth_login').toggle();
+                $('.sidebox > .bottom > span').toggle();
+                if ($('#openid_login').css('display') != 'none') {
+                    createCookie('useopenid', 'ofcourse', 365);
+                } else {
+                    createCookie('useopenid', '');
+                }
+                return false;
+            });
+        });
+    </script>
+    {% endif %}
+  {% endifequal %}
+{% endifequal %}    
+{% endblock %}
+
+{% block title %}{{ page_title }}{% ifequal view "tag" %}: {{ tag.name }}{% endifequal %}{% if has_previous %} | Page {{ request.page }}{% endif %}{% endblock %}
+
+
+{% block main_content %}
+
+{% autopaginate website_list %}
+{% if website_list %}
+{% load truncate %}
+{% load voting_tags %}
+{% load tagging_tags %}
+{% scores_for_objects website_list as score_dict %}
+
+            <h1>{{ page_title }}{% ifequal view "tag" %}: {{ tag.name }}{% endifequal %}</h1>
+
+			{% ifequal view "latest"%}{% ifequal request.page 1 %}
+			<p>Welcome to DjangoSites.org, a showcase of websites powered by <a href='http://www.djangoproject.org/'>Django</a>. We've currently got <strong>{{ hits }}</strong> websites listed - please <a href='/accounts/signup/'>register</a> or <a href='/accounts/signin/'>login</a> to submit your site or vote for your favorite sites.</p>
+
+			<p>Just want to look around and see what's out there? You don't need an account to do that. You can just use the next/previous links below, or the tag cloud to the right, to find your way around.</p>
+
+			{% endifequal %}{% endifequal %}
+
+			{% ifequal view "unclaimed" %}{% ifequal request.page 1 %}
+            <p><strong style='color: #f00;'>We Need Your Help: </strong> We've recently transferred many websites from the old Django Powered Sites wiki page, and we don't know who they belong to! Please review these unclaimed websites and <strong>send us your DjangoSites username via e-mail</strong> if they're yours so you get full credit!</p>
+			{% endifequal %}{% endifequal %}
+
+            <div id="websites">
+            {% for website in website_list %}
+            {% dict_entry_for_item website from score_dict as score %}
+                <div class="website_wrapper">
+                    <div class="website_preview">
+                        <p class="header"><span class="title{% if website.source_url %}withsource{% endif %}"><a href="{{ website.url }}">{{ website.title|truncate_dot:25 }}</a></span> </p>
+                        <a href="{{ website.get_absolute_url }}"><img src="{{ website.screenshot_url }}" alt="{{ website.title }}"></a>
+                        <p class="info"><a href='/author/{{ website.owner.username }}/'>{{ website.owner.get_full_name|default:website.owner.username }}</a> <span class="date">{{ website.created|date:"j/m/y" }}</span></p>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+
+
+            <p>{% paginate %}</p>
+{% else %}
+<h1>No Sites Found!</h1>
+
+<p>Sorry, no websites were found that matched your query.</p>
+
+<p>That may be because the sites exist, but haven't yet been verified. Whenever a site is added or edited, our team need to check the listing before it's made visible.</p>
+
+<p>If you've recently added or changed a website you think should be listed here, wait a day or so and it'll be verified.</p>
+{% endif %}
+
+{% endblock %}
+
+{% block sidebar %}
+    {% ifequal view "latest" %}{% ifequal request.page 1 %}
+    {% if not user.is_authenticated %}
+    <div class="sidebox">
+        <h2>Log in</h2>
+        <p>To place a vote or add your own sites, you need to be logged in. You can either log in below, or <a href="/accounts/signup/">register today</a>.</p>                    
+        <div id="auth_login">
+            <p class="login_toggle"><img src="/media/openid.gif" alt="OpenID" height="16" width="16"><a href="#">Signin With OpenID</a></p>
+            <form method="post" action="/accounts/signin/">{% csrf_token %}
+                <p><label for="id_username">Username:</label><br><input name="username" maxlength="30" size="17" type="text"></p>
+                <p><label for="id_password">Password:</label><br><input name="password" maxlength="128" size="17" type="password"></p>
+                <p><input name="blogin" value="Log in" type="submit"></p>            
+            </form>
+        </div>
+
+        <div id="openid_login">
+            <p class="login_toggle"><a href="#">Use A Username Instead</a></p>
+            <form name="fopenid" action="/accounts/signin/" method="post">{% csrf_token %}
+                <p><label for="id_openid_url">OpenID URL:</label><br><input name="openid_url" maxlength="255" size="15" class="openid" type="text"></p>
+                <p><input name="bsignin" value="Sign In via OpenID" type="submit"></p>
+            </form>	
+        </div>
+        <p class="bottom"><span>Forgotten your password? <a href="{% url auth_password_reset %}">Get a new one</a> e-mailed to you!</span></p>
+    </div>
+    {% endif %}
+    {% endifequal %}{% endifequal %}
+		
+    <div id="tag-cloud">
+        <h2>Tags</h2>
+        <ul>
+        {% for tag in tagcloud %}
+            <li><a href="/tag/{{ tag.name }}/" class="tag-{{ tag.font_size }}">{{ tag.name|lower }}</a></li>
+        {% endfor %}
+        </ul>
+		<p class="bottom"><a href="/tags/">View All Tags</a></p>
+    </div>
+{% endblock %}
+
+{% block footer %}
+<p id="rss">
+{% ifequal view "author" %}
+<a href="/rss/author/{{ author.username }}/" title="RSS feed of the latest additions to djangosites.org by {{ author.username }}">Latest additions by {{ author.username }}</a>
+{% endifequal %}
+{% ifequal view "tag" %}
+<a href="/rss/tag/{{ tag.name }}/" title="RSS feed of the latest additions to djangosites.org tagged [{{ tag.name }}]">Latest additions tagged [{{ tag.name }}]</a>
+{% endifequal %}
+{% ifequal view "latest" %}
+<a href="/rss/latest/" title="RSS feed of the latest additions to djangosites.org" id="rss">Latest additions</a>
+{% endifequal %}
+</p>
+{% endblock %}

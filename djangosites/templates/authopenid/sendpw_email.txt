@@ -1,0 +1,14 @@
+Hello,
+
+Somebody, hopefully you, has asked to reset your password at {{ site_url }}.
+
+If this was you, your new password and activation link can be found below. If it was not you, please ignore this e-mail.
+
+Your new password is: {{ password }}
+
+To activate this new password, click on the following URL: {{ site_url }}{{ url_confirm }}?key={{ confirm_key }}
+
+Regards,
+
+{{ site_url }}
+

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content_class %} class="one-column"{% endblock %}
+
+{% block main_content %}
+<h1>Send a new password</h1>
+
+<p>Lost your password ? Here you can ask to reset your password. Enter the username you use and you will get an e-mail quicksmart with your new password. This new password will be activated only after you clicked on the link you will find in the email.</p>
+
+{% if form.errors %}
+<p class="errors">Please correct the following error:<br>
+	{% if form.username.errors %} 
+		<span class="error">{{ form.username.errors|join:", " }}</span>
+	{% endif %}
+</p>
+{% endif %}
+{% if msg %}
+<br>
+<span class="error">{{ msg }}</span>
+{% endif %}
+
+<form action="." method="post" accept-charset="utf-8">{% csrf_token %}
+    <fieldset>
+        <legend>Request New Password</legend>
+        <p><label for='id_username'>Username</label><br>{{ form.username }}</p>
+        <p><input type="submit" value="Send new password"></p>
+    </fieldset>
+</form>
+{% endblock %}

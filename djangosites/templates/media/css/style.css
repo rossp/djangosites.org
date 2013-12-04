@@ -1,0 +1,473 @@
+/*
+*********************************
+                                 *
+    Created: March, 2008          * 
+    Author:  Martin Czura          *
+    Website: www.byteshrine.org   *
+                                 *
+*********************************
+*/
+
+@import url("./gecko.css");
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-size: 93.75%;
+    font-family: Verdana, "sans serif";
+}
+
+/* Page Construct */
+
+div#wrapper {
+    width: 100%;
+    max-width: 1024px;
+    background: url(../img/layout/wrap_bg.jpg) repeat-y;
+    margin: 0 auto;
+}
+
+div#header {
+    height: 90px;
+    background: url(../img/layout/header_bg.jpg) repeat-x;
+}
+
+div#content {
+    float: left;
+    width: 100%;
+    background: url(../img/layout/header_bottom.jpg) repeat-x top;    
+    padding: 2em 0 0 0;    
+}
+
+div#main {
+    float: left;
+    width: 72%;
+}
+
+div#sidebar {
+    float: right;
+    width: 28%;
+    color: #7d7d7f;
+}
+
+div#footer {
+    clear: both;
+    background: #3b744e;
+    border: 1px solid #092e20;
+    border-top: 7px solid #092e20;
+    padding: .5em 1em;
+    font-size: 80%;
+    color: #d2af23;
+}
+
+/* Page Construct - Single Column */
+
+div#content.one-column div#main {
+    width: 75%;
+}
+
+/* Page Construct - Website details */
+
+div#content.detail div#main {
+    width: 57%;
+}
+
+div#content.detail div#sidebar {
+    width: 43%;
+}
+
+/* General Stuff */
+
+a { color:#3b744e; }
+a:hover { text-decoration: none; }
+
+img { border:0 }
+
+div#main ol { padding: 0 3em; }
+
+div#main ul { padding: 0 2.5em; }
+
+div#sidebar ol { 
+    padding: .5em 3.5em 0 3.5em;
+    font-size: 80%;    
+}
+
+div#sidebar ul { 
+    padding: .5em 3.25em 0 3.25em;
+    font-size: 80%;
+}
+
+div#main p { 
+    padding: 0 1.5em 1em 1.5em;
+}
+
+#sidebar p { 
+    padding: .5em 1.8em 0 1.8em;
+    font-size: 90%;
+}
+
+/* A little more specific */
+
+div#header img {
+    float:left;
+}
+
+div#content.detail div#main span {
+    font-weight: bold;
+    color: #b9960c;
+}
+
+p.paginator { 
+    clear: left;
+    margin: 2em 0;
+}
+
+div#footer a { 
+    font-weight: bold;
+    color: #d2af23;   
+}
+
+p#rss {
+    float: right;
+}
+
+p#rss a {
+    background: url(../img/layout/rss-icon.gif) no-repeat 0 50%;
+    padding: 0 0 0 18px;
+}
+
+/* Headings */
+
+div#main h1,
+div#main h2 {
+    padding: .5em 0.85em;
+    font-family: "Trebuchet MS", "sans serif";
+    font-size: 170%;    
+    color: #3b744e;
+}
+
+div#main h2 {
+    clear: left;
+    padding: .5em 1.1em;    
+    font-size: 130%;
+}
+
+div#sidebar h2 {
+    background: url(../img/layout/sidebox_top.jpg) no-repeat top left;
+    padding: 1em 1em 0 1em;    
+    font-family: "Courier New", "sans serif";
+    font-size: 160%;
+    color: #b9960c; 
+}
+
+/* Navigation + Actions (Actions for logged in users) */
+
+ul#navigation,
+ul#actions {
+    float: left;
+    width: 99%;
+    background: #092e20;    
+    border-top: 1px solid #a2af23;
+    border-bottom: 1px solid #a2af23;
+    padding: 0 0 0 1%;
+    list-style-type: none;
+    font-weight: bold;
+}
+
+ul#navigation li,
+ul#actions li {
+    float: left;
+    padding: .2em .5em;
+}
+
+ul#navigation a,
+ul#actions a {
+    display: block;
+    color: #d2af23;
+    text-decoration: none;
+}
+ul#navigation a:hover,
+ul#actions a:hover { color: #fff; }
+
+ul#actions {
+    float: right;
+    background: #3b744e url(../img/layout/header_bottom.jpg) repeat-x top;
+    border: 0;
+    margin: -2.3em 0 0 0;
+    padding: 0 1% 0 0;
+    font-size: 85%;
+}
+
+ul#actions li {
+    float: right;
+}
+
+/* Screenshots */
+
+div#websites {
+    width: 95%;
+    margin: 0 auto 1em auto;
+}
+
+div.website_wrapper {
+    float: left;
+    display: inline;
+    width: 322px;
+    background: url(../img/layout/website_bg.gif) no-repeat bottom right;
+    margin: 1em 0 1em 20px;
+    line-height: 0;
+    color: #3b744e;
+}
+
+div#sidebar div.website_wrapper {
+    margin: 1.5em 0 1em .1em;
+}
+
+div.website_preview {
+    position: relative;
+    left: -5px;
+    top: -5px;
+}
+
+div#main p.header,
+div#sidebar p.header {
+    background: url(../img/layout/website_head.jpg) no-repeat top;
+    border: 0;
+    border-bottom: 1px solid #eee;
+    padding: 18px 5px 12px 5px;
+}
+
+p.header span.title {
+    font-size: 90%;
+}
+
+p.header span.titlewithsource {
+	background: url(../img/layout/sourcecode.jpg) no-repeat;
+	padding: 0 0 0 18px;
+}
+
+p.header span.score,
+p.header span.scored {
+    display: block;
+    text-align: right;    
+    font-size: 160%;
+    color: #aaa;
+}
+
+p.header span.scored {
+    color: #579969;
+}
+
+div.website_preview img {
+    display: block;
+    width: 320px;
+    height: 240px;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #e5e5e5;
+    cursor: pointer;
+}
+
+div#main p.info,
+div#sidebar p.info {
+    border: 1px solid #ccc;
+    border-top: 1px solid #eee;
+    border-right: 1px solid #e5e5e5;
+    padding: 10px 5px;    
+    font-size: 80%;
+}
+
+div#sidebar p.info {
+    text-align: center;
+}
+
+p.info span.date {
+    display: block;
+    text-align: right;    
+}
+
+p.info a {
+	text-decoration: none;
+}
+
+/* Highest rated */
+
+div.top_voted {
+    clear: left;
+    float: left;
+    width: 150px;
+    margin: .15em 0 0 0;
+    text-align: center;
+    font-size: 300%;
+    color: #ccc;
+}
+
+div.top_voted #first {
+    font-size: 150%;
+    color: #090;
+}
+
+/* Comments */
+
+div.comment {
+    overflow: auto;
+    margin: 0 1.5em 1em 1.5em;
+    line-height: 1.3em;    
+    font-size: 95%;
+}
+
+div#main div.comment p { 
+    padding: .5em;
+}
+
+div#main div.comment p.author {    
+    background: #f5ffe8;
+    border-top: 1px solid #dcf5e4;
+    padding: .3em .5em;
+    color: #b9960c;
+    font-family: "Trebuchet MS", "sans serif";
+    font-size: 95%;
+}
+
+/* Forms */
+
+div#main form { margin: 1em 1.5em; }
+
+div#main form fieldset {
+    border: 1px solid #8ebb9a;
+    margin: 1em 0 0 0;
+    padding: .5em;
+}
+
+div#main form fieldset p {
+    margin: .5em 0 0 0;
+    font-size: 90%;
+}
+
+div#main form legend {
+    border: 1px solid #8ebb9a;
+    padding: .2em .5em;
+    font-weight: bold;
+    color: #b9960c;
+}
+
+div#main form label {
+    color: #3b744e;
+	padding: 1em 0 0 0;
+	font-weight: bold;
+}
+
+div#main form label.error {
+	color: #f00;
+}
+
+div#main form textarea {
+    width: 99%;
+    height: 160px;
+    background: #fff;
+    border: 1px solid #cccccc;    
+    font-size: 110%;
+}
+
+div#main .formerror {
+    color: #000099;
+    font-size: 70%;
+}
+
+/* Sidebar boxes */
+
+div.sidebox,
+div#sidebar div#tag-cloud {
+    background: url(../img/layout/sidebox_body.jpg) repeat-y;
+    margin: 1em 0 1.5em 0;
+}
+
+div#sidebar div.sidebox p.bottom,
+div#sidebar div#tag-cloud p.bottom {
+    clear: left;
+    height: 1%;
+    background: url(../img/layout/sidebox_bottom.jpg) no-repeat bottom left;
+    padding: .5em 1.75em 1.6em 1.75em;
+}
+
+/* Tags */
+
+div#tag-cloud {
+    line-height: 220%;
+}
+
+div#tag-cloud ul {
+    padding: 0 .5em 0 1em;
+    white-space: nowrap;
+}
+
+div#tag-cloud li {
+    float: left;
+    padding: 0 5px 0 10px;
+    list-style-type: none;
+    font-family: "Trebuchet MS";
+}
+
+div#tag-cloud li a {
+    text-decoration: none;
+}
+
+div#tag-cloud li a:hover {
+    text-decoration: underline;
+}
+
+div#tag-cloud li a.tag-1 {
+    font-size: 80%;
+    color: #8ebb9a;
+}
+
+div#tag-cloud li a.tag-2 {
+    font-size: 95%;
+    color: #8ebb9a;
+}
+
+div#tag-cloud li a.tag-3 {
+    font-size: 110%;
+    color: #8ebb9a;
+}
+
+div#tag-cloud li a.tag-4 {
+    font-size: 130%;
+    color: #8ebb9a;
+}
+
+div#tag-cloud li a.tag-5 {
+    font-size: 150%;
+    color: #8ebb9a;
+}
+
+div#tag-cloud li a.tag-6 {
+    font-size: 170%;
+    color: #579969;
+}
+
+div#tag-cloud li a.tag-7 {
+    font-size: 190%;
+    color: #407546;
+}
+
+div#tag-cloud li a.tag-8 {
+    font-size: 210%;
+    color: #092e20;
+}
+
+/* Login */
+
+input.openid {
+    background: url(../img/layout/openid.gif) no-repeat 0 50%;
+    padding-left: 18px;    
+}
+
+div#openid_login {
+    display: none;
+}
+
+p.login_toggle {
+    text-align: right;
+}

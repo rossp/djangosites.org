@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content_class %} class="one-column"{% endblock %}
+
+{% block main_content %}
+<h1>Delete Your Account</h1>
+
+<p>This will delete your DjangoSites account, completely and permanently. Any sites you have submitted will be removed, and any votes you have placed will be subtracted.</p>
+
+<p>Note that anybody will be able to register using this username if you delete your account.</p>
+
+{% if form.errors %}
+<p class="errors">Please correct the error(s) below:<ul>
+	{% if form.confirm.errors %} 
+    <li>You must tick the 'confirm' box to delete your account</li>
+	{% endif %}
+	{% if form.password.errors %} 
+    <li>Your password was incorrect</li>
+	{% endif %}</ul>
+</p>
+{% endif %}
+{% if msg %}
+<p class="errors">Please correct errors below<br>
+    <span class="error">{{ msg }}</span>
+    </p>
+{% endif %}
+<form action="." method="post" accept-charset="utf-8">{% csrf_token %}
+
+        <fieldset>
+            <legend>Delete Your Account</legend>
+		    <p>{{ form.username }}</p>
+            <p><label for='id_confirm'>Confirm Deletion?</label><br>{{ form.confirm }}</p>
+            <p><label for='id_password'>Your Password / OpenID URL</label><br>{{ form.password }}</p>
+
+            <p><input type='submit' value='Delete Account Forever'></p>
+        </fieldset>
+	</form>
+{% endblock %}

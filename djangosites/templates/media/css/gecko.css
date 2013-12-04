@@ -1,0 +1,16 @@
+div#tag-cloud li a.tag-1:-moz-any-link,
+div#tag-cloud li a.tag-2:-moz-any-link,
+div#tag-cloud li a.tag-3:-moz-any-link,
+div#tag-cloud li a.tag-4:-moz-any-link,
+div#tag-cloud li a.tag-5:-moz-any-link { 
+    line-height: 100%;
+}
+
+div#tag-cloud li a.tag-6:-moz-any-link,
+div#tag-cloud li a.tag-7:-moz-any-link {
+    line-height: 80%;
+}
+
+div#tag-cloud li a.tag-8:-moz-any-link {
+    line-height:65%;
+}

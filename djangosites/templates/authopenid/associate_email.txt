@@ -1,0 +1,9 @@
+Hello,
+
+Thanks for using OpenID at {{ site }}.
+
+You can now login using that OpenID instead of a username/password.
+
+Cheers,
+
+DjangoSites Admin

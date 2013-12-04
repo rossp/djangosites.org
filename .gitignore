@@ -1,0 +1,11 @@
+*.pyc
+lib/
+include/
+logs/
+django_authopenid/
+htdocs/
+bin/
+etc/
+src/
+etc/
+djangosites/local_settings.py

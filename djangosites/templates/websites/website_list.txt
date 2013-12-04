@@ -1,0 +1,2 @@
+{% for website in website_list %}{{ website.url }}
+{% endfor %}

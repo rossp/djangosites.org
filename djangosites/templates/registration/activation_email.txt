@@ -1,0 +1,14 @@
+Howdy!
+
+Thanks for registering with DjangoSites.org so you can share your Django-powered creations and comment on the hard work of everybody else.
+
+Can you please confirm your registration by activating your account with the link below? 
+
+http://www.djangosites.org{% url registration_activate activation_key %}
+
+The community and I appreciate it.
+
+Cheers,
+
+Ross Poulton
+DjangoSites Curator

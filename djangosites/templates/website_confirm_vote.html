@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Confirm Vote{% endblock %}
+{% block content_class %} class="one-column"{% endblock %}
+{% block content_header %}Confirm Your Vote{% endblock %}
+{% block main_content %}
+<p>Are you sure that you would like to vote for <strong>{{ website.title }}</strong>?</p>
+
+<form method='post' action='./'>{% csrf_token %}
+<input type='submit' value='Yes'>
+</form>
+
+<form method='get' action='../'>
+<input type='submit' value='No'>
+</form>
+{% endblock %}

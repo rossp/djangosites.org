@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Remove OpenID Association{% endblock %}
+{% block content_class %} class="one-column"{% endblock %}
+
+{% block main_content %}
+<h1>Remove OpenID Association</h1>
+
+<p>Want to remove an OpenID association? Easy! </p>
+
+{% if form.errors %}
+<p class="errors">Please correct the errors below:<br>
+	{% if form.openid_url.errors %} 
+		<span class="error">{{ form.openid_url.errors|join:", " }}</span>
+	{% endif %}
+
+
+</p>
+{% endif %}
+
+{% if msg %}
+	<p class="errors">{{ msg }}</p>
+{% endif %}
+
+<form action="{% url user_dissociate %}" method="post" accept-charset="utf-8">{% csrf_token %}
+    <input type='hidden' name='next' value='{{ next }}'>
+        <fieldset>
+            <legend>Remove OpenID Association</legend>
+            <p>Are you sure you want to remove {{ openid_url }} from your account?</p>
+            <p><input type='submit' name='bdissociate' value='Confirm'></p>
+        </fieldset>
+	</form>
+{% endblock %}

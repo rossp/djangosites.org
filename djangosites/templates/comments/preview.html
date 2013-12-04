@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Preview Your Comment{% endblock %}
+{% block content_class %} class="one-column"{% endblock %}
+
+{% block main_content %}
+{% load markup %}
+{% load comments %}
+
+        <h1>Preview your comment</h1>
+
+		<p>Please have a quick read over your comment to make sure you're happy with it, and check any formatting. Don't forget, you can do basic formatting such as lists, bold or italics using <a href='http://daringfireball.net/projects/markdown/syntax'>markdown syntax</a>.</p>
+		
+		<p>If you want to post your comment, click the 'Post public comment' button, remembering the entire world can see what you write here.</p>
+
+		<p>If you want to make any changes, use the form below, and click 'Preview revised comment' to preview your changes.</p>
+
+        <form action="{% comment_form_target %}" method="POST">{% csrf_token %}
+        {% if form.errors %}
+	        <p><strong class="formerror">Please correct the following errors.</strong></p>
+	    {% else %}
+	        <div class="comment">
+                <p class="author">Posted by {{ comment.user.username|escape }}, 1 minute ago.</p>  
+	            {{ comment|markdown }}
+	        </div>
+
+	        <p><input type="submit" name="post" value="Post public comment" class="send"></p>
+
+	        <h2>or..</h2>
+	    {% endif %}
+
+	    {% if comment_form.comment.errors %}
+		    <p class="formerror">{{ comment_form.comment.html_error_list }}</p>
+	    {% endif %}
+    
+            <fieldset>
+                <legend>Edit your comment</legend>
+    {% for field in form %}
+      {% if field.is_hidden %}
+        {{ field }}
+      {% else %}
+        <p
+          {% if field.errors %} class="error"{% endif %}
+          {% ifequal field.name "honeypot" %} style="display:none;"{% endifequal %}>
+          {% if field.errors %}{{ field.errors }}{% endif %}
+          {{ field.label_tag }} {{ field }}
+        </p>
+      {% endif %}
+    {% endfor %}
+
+    <p class="submit">
+      <input type="submit" name="submit" class="submit-post" value="Post">
+      <input type="submit" name="submit" class="submit-preview" value="Preview">
+    </p>
+        
+			</fieldset>
+        </form>
+{% endblock %}

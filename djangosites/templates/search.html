@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Keyword Seach{% endblock %}
+{% block content_class %} class="one-column"{% endblock %}
+{% block content_header %}Keyword Seach{% endblock %}
+{% block main_content %}
+<h1>Keyword Seach</h1>
+
+<p>Enter a keyword to search the sites listed at djangosites.org:</p>
+
+<form method='get' action='/search/'>
+    <fieldset>
+        <legend>Keyword Search</legend>
+
+        <p><label for="id_query">Keywords:</label><br><input type='text' name='query' id='id_query'></p>
+
+        <p><input type='submit' value='Search'></p>
+    </fieldset>
+</form>
+
+{% endblock %}

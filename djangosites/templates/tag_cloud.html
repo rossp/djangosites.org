@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Tag Listing{% endblock %}
+{% block content_class %} class="one-column"{% endblock %}
+
+{% block content_header %}Tag Listing{% endblock %}
+{% block main_content %}
+<h1>Tag Listing</h1>
+
+<p>Below is a listing of all tags in use on djangosites.org.</p>
+
+<div id="tag-cloud">
+	<ul>
+	{% for tag in cloud %}
+		<li><a href="/tag/{{ tag.name }}/" class="tag-{{ tag.font_size }}">{{ tag.name|lower }}</a></li>
+	{% endfor %}
+	</ul>
+</div>
+
+{% endblock %}
