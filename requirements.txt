@@ -7,7 +7,7 @@ django-authopenid==1.0.1
 django-flag==0.1.1
 django-memcache-status==1.1
 django-pagination==1.0.7
-django-registration==0.8
+django-registration==3.1.2
 django-tagging==0.3.1
 django-voting==0.1
 gunicorn # This code was against 0.14 but should work on newer builds.
